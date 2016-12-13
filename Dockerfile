@@ -1,3 +1,3 @@
 FROM microsoft/dotnet
-COPY ../ .
+COPY dotnet-testfolder .
 RUN dotnet restore

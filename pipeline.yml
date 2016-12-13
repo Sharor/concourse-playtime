@@ -19,7 +19,7 @@ jobs:
   - get: dotnet-test
   - put: hello-world-docker-image
     params:
-      build: dotnet-test/build
+      build: dotnet-test
 
 - name: build 
   public: true
