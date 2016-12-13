@@ -1,0 +1,30 @@
+resources:
+- name: dotnet-test
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+
+- name: hello-world-docker-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: {{docker-hub-image-hello-world}}
+
+jobs:
+- name: restore 
+  public: true
+  plan:
+  - get: dotnet-test
+  - put: hello-world-docker-image
+    params:
+      build: dotnet-test/build
+
+- name: build 
+  public: true
+  plan:
+  - get: dotnet-test
+  - task: build
+    file: dotnet-test/build/dotnet-build.yml
+
