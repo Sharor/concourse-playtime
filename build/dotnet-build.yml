@@ -5,8 +5,8 @@ image_resource:
   source: {repository: microsoft/dotnet}
 
 inputs:
-- name: dotnet-test
-- name: dotnet-restored
+. name: dotnet-test
+- name: hello-world-docker-image
 
 run:
   path: sh
