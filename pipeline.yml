@@ -24,7 +24,7 @@ jobs:
 - name: build 
   public: true
   plan:
-  - get: dotnet-test
+  - get: hello-world-docker-image
   - task: build
     file: dotnet-test/build/dotnet-build.yml
 

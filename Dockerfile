@@ -1,3 +1,5 @@
 FROM microsoft/dotnet
-COPY dotnet-testfolder .
+RUN  mkdir dotnet-testfolder
+COPY dotnet-testfolder ./dotnet-testfolder/
+WORKDIR dotnet-testfolder
 RUN dotnet restore
