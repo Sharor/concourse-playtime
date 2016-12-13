@@ -1,5 +1,3 @@
 FROM microsoft/dotnet
-RUN ls
-WORKDIR tmp
-RUN ls
-COPY dotnet-restore.yml .
+COPY ../ .
+RUN dotnet restore
