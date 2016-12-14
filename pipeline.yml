@@ -4,7 +4,7 @@ resources:
   source:
     uri: https://github.com/Sharor/concourse-playtime.git
 
-- name: hello-world-docker-image
+- name: dotnetbuild
   type: docker-image
   source:
     email: {{docker-hub-email}}
