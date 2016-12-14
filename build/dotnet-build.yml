@@ -6,7 +6,6 @@ image_resource:
 
 inputs:
 . name: dotnet-test
-- name: hello-world-docker-image
 
 run:
   path: sh
