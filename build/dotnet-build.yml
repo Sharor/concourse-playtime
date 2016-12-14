@@ -13,4 +13,4 @@ run:
   - -exc
   - |
     ls
-    dotnet build 
+    dotnet test
