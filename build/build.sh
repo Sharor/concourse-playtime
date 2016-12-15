@@ -8,7 +8,7 @@ cd build
 cd dotnet-testfolder
 
 ls |grep lock
-ll
+ls
 
 
 git config --global user.email "johannes_christensen@msn.com"
