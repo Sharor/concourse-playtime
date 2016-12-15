@@ -7,6 +7,10 @@ git clone dotnet-pipeline build
 cd build
 cd dotnet-testfolder
 
+ls |grep lock
+ll
+
+
 git config --global user.email "johannes_christensen@msn.com"
 git config --global user.name "sharor"
 
