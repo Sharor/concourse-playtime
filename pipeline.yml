@@ -40,4 +40,5 @@ jobs:
     passed: [restore]
   - task: build
     file: dotnet-test/build/dotnet-build.yml
-
+  - put: dotnet-pipeline
+    params: {repository: build}

@@ -5,12 +5,16 @@ image_resource:
   source: {repository: microsoft/dotnet}
 
 inputs:
-. name: dotnet-test
+- name: dotnet-test
+- name: dotnet-pipeline
+outputs:
+  - name: build
 
 run:
-  path: sh
-  args:
-  - -exc
-  - |
-    ls
-    dotnet test
+  path: dotnet-test/build/build.sh
+
+
+
+
+
+
