@@ -7,8 +7,6 @@ image_resource:
 inputs:
 - name: dotnet-test
 
-outputs:
-- name: dotnet-restored
 
 run:
   path: sh
@@ -17,6 +15,5 @@ run:
   - |
     ls
     dotnet restore 
-    mv dotnet-test/dotnet-testfolder ./dotnet-restored
-    ls -ld $(find .)
-    find $PWD -type f | grep "AccountController.cs"
+    git add .
+    git commit -m "restore dotnet project"    

@@ -12,14 +12,14 @@ resources:
     branch: master
     username: {{github-username}}
     password: {{github-password}}
-- name dotnet-pipeline
+
+- name: dotnet-pipeline
   type: git
-  source: 
+  source:
     uri: https://github.com/Sharor/concourse-playtime.git
-    branch: pipeline
+    branch: pipline
     username: {{github-username}}
     password: {{github-password}}
-
 
    
 jobs:

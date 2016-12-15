@@ -4,6 +4,16 @@ resources:
   source:
     uri: https://github.com/Sharor/concourse-playtime.git
 
+- name: dotnet-pipeline
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: pipline
+    username: {{github-username}}
+    password: {{github-password}}
+
+
+
 - name: dotnetbuild
   type: docker-image
   source:
@@ -13,20 +23,21 @@ resources:
     repository: {{docker-hub-image-hello-world}}
 
 jobs:
-- name: restore-build 
+- name: restore
   public: true
   plan:
   - get: dotnet-test
-  - put: dotnetbuild
-    params:
-      build: dotnet-test
+  - task: restore-dotnet
+    file: dotnet-test/build/dotnet-restore.yml
+  - put: dotnet-pipeline
+    params: {repository: dotnet-test}
 
-- name: unittest
+- name: build
   public: true
   plan:
   - get: dotnet-test
-  - get: dotnetbuild
-    passed: [restore-build]
+  - get: dotnet-pipeline
+    passed: [restore]
   - task: build
     file: dotnet-test/build/dotnet-build.yml
 
