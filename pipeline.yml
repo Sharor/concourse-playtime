@@ -25,6 +25,7 @@ jobs:
   public: true
   plan:
   - get: dotnet-test
+  - get: dotnetbuild
     passed: [restore-build]
   - task: build
     file: dotnet-test/build/dotnet-build.yml

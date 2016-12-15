@@ -1,0 +1,35 @@
+---
+resources:
+- name: resource-tutorial
+  type: git
+  source:
+    uri: https://github.com/starkandwayne/concourse-tutorial.git
+
+- name: dotnet-test
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: master
+    username: {{github-username}}
+    password: {{github-password}}
+
+   
+jobs:
+- name: job-pass-files
+  public: true
+  plan:
+  - get: dotnet-test
+  - task: create-some-files
+    file: dotnet-test/concourse-tutorial/create_some_files.yml
+  - put: dotnet-test
+    params: {repository: concourse-playbook}
+
+- name: job-read-files
+  public: true
+  plan:
+  - get: dotnet-test
+    passed: [job-pass-files]
+  - task: build
+    file: dotnet-test/concourse-tutorial/show_files.yml
+
+
