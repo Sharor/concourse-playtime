@@ -12,6 +12,14 @@ resources:
     branch: master
     username: {{github-username}}
     password: {{github-password}}
+- name dotnet-pipeline
+  type: git
+  source: 
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: pipeline
+    username: {{github-username}}
+    password: {{github-password}}
+
 
    
 jobs:
@@ -21,8 +29,8 @@ jobs:
   - get: dotnet-test
   - task: create-some-files
     file: dotnet-test/concourse-tutorial/create_some_files.yml
-  - put: dotnet-test
-    params: {repository: concourse-playbook}
+  - put: dotnet-pipeline
+    params: {repository: dotnet-test}
 
 - name: job-read-files
   public: true
