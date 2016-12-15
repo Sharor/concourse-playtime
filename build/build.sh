@@ -5,6 +5,7 @@ set -x # print commands
 
 git clone dotnet-pipeline build
 cd build
+cd dotnet-testfolder
 
 git config --global user.email "johannes_christensen@msn.com"
 git config --global user.name "sharor"
