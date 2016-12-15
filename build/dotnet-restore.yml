@@ -15,5 +15,6 @@ run:
   - |
     ls
     dotnet restore 
+    cd dotnet-test
     git add .
     git commit -m "restore dotnet project"    
