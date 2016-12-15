@@ -32,13 +32,13 @@ jobs:
   - put: dotnet-pipeline
     params: {repository: restore}
 
-- name: build
+- name: unit-test
   public: true
   plan:
   - get: dotnet-test
   - get: dotnet-pipeline
     passed: [restore]
-  - task: build
+  - task: test
     file: dotnet-test/build/build-job.yml
   - put: dotnet-pipeline
     params: {repository: build}
