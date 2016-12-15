@@ -8,7 +8,7 @@ inputs:
 - name: dotnet-test
 
 outputs:
-  - name: updated-gist
+  - name: restore
 
 run:
   path: dotnet-test/build/restore.sh

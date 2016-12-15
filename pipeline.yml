@@ -28,7 +28,7 @@ jobs:
   plan:
   - get: dotnet-test
   - task: restore-dotnet
-    file: dotnet-test/build/dotnet-restore.yml
+    file: dotnet-test/build/restore-job.yml
   - put: dotnet-pipeline
     params: {repository: dotnet-test}
 
