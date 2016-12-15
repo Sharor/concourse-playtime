@@ -13,7 +13,6 @@ git config --global user.name "sharor"
 dotnet restore
 dotnet build
 git status
-ls ./dotnet-testfolder
 
 git add .
 git commit -m "restore dotnet project" 
