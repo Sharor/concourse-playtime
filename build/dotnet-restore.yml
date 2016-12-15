@@ -7,20 +7,10 @@ image_resource:
 inputs:
 - name: dotnet-test
 
+outputs:
+  - name: updated-gist
 
 run:
-  path: sh
-  args:
-  - -exc
-  - |
-    ls
-    git clone dotnet-test
-    
-    git config --global user.email "johannes_christensen@msn.com"
-    git config --global user.name "sharor"
-   
-    dotnet restore
-    cd dotnet-test
-    ls
-    git add .
-    git commit -m "restore dotnet project"    
+  path: dotnet-test/build/restore.sh
+
+
