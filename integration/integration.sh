@@ -5,8 +5,8 @@ set -x # print commands
 
 git clone repository integration
 cd integration
+ls
 echo "hello"
-git branch -r
-git fetch
-git branch -r
-
+git checkout `cat ready_branch`
+echo "success!"
+git status

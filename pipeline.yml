@@ -47,8 +47,11 @@ jobs:
   - get: repository
   - get: fetch-ready-branches
     trigger: true
+  - task: check-ready-branches
+    file: repository/integration/ready-integration.yml
   - task: integration
     file: repository/integration/job-integration.yml
+
 
 #- name: restore
 # public: true
