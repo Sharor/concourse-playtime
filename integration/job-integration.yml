@@ -10,7 +10,7 @@ outputs:
   - name: integration
 
 run:
-  path: dotnet-test/integration/
+  path: dotnet-test/integration/integration.sh
 
 
 
