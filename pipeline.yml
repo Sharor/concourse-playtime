@@ -1,4 +1,13 @@
 resources:
+- name: ready-branches
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: ready/*
+    username: {{github-username}}
+    password: {{github-password}}
+
+
 - name: dotnet-test
   type: git
   source:
@@ -23,6 +32,15 @@ resources:
     repository: {{docker-hub-image-hello-world}}
 
 jobs:
+- name: integration-job
+  public: true
+  plan:
+  - get: dotnet-test
+  - get: ready-branches
+    trigger: true
+  - task: integration
+    file: dotnet-test/integration/job-integration.yml
+
 - name: restore
   public: true
   plan:
