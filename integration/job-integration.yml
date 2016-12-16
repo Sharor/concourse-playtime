@@ -5,12 +5,12 @@ image_resource:
   source: {repository: microsoft/dotnet}
 
 inputs:
-- name: dotnet-test
+- name: repository
 outputs:
   - name: integration
 
 run:
-  path: dotnet-test/integration/integration.sh
+  path: repository/integration/integration.sh
 
 
 

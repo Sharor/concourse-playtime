@@ -48,7 +48,7 @@ jobs:
   - get: fetch-ready-branches
     trigger: true
   - task: integration
-    file: dotnet-test/integration/job-integration.yml
+    file: repository/integration/job-integration.yml
 
 #- name: restore
 # public: true
