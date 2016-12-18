@@ -1,0 +1,74 @@
+resources:
+- name: repository
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    username: {{github-username}}
+    password: {{github-password}}
+
+- name: fetch-ready-branches
+  type: time
+  source: 
+    interval: 10s  
+
+
+
+
+
+
+
+- name: dotnet-test
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+
+- name: dotnet-pipeline
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: pipline
+    username: {{github-username}}
+    password: {{github-password}}
+
+
+
+- name: dotnetbuild
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: {{docker-hub-image-hello-world}}
+
+jobs:
+- name: integration-job
+  public: true
+  plan:
+  - get: repository
+  - get: fetch-ready-branches
+    trigger: true
+  - task: check-ready-branches
+    file: repository/integration/ready-integration.yml
+  - task: integration
+    file: repository/integration/job-integration.yml
+
+
+#- name: restore
+# public: true
+#  plan:
+#  - get: dotnet-test
+#  - task: restore-dotnet
+#    file: dotnet-test/build/restore-job.yml
+#  - put: dotnet-pipeline
+#    params: {repository: restore}
+
+#- name: unit-test
+#  public: true
+#  plan:
+#  - get: dotnet-test
+#  - get: dotnet-pipeline
+#    passed: [restore]
+#  - task: test
+#    file: dotnet-test/build/build-job.yml
+#  - put: dotnet-pipeline
+#    params: {repository: build}
