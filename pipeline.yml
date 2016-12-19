@@ -1,3 +1,30 @@
+jobs:
+- name: create-release-image
+  public: true
+  plan:
+  - get: repository
+    trigger: true
+  - put: release-docker-image
+    params:
+      build: repository
+
+- name: kubernetes-deploy
+  public: true
+  plan:
+  - get: repository
+  - get: release-docker-image
+    passed: [create-release-image]
+  - put: kubernetes
+    params:
+      image_name: repository/kubernetes-docker-repo
+      image_tag: repository/kubernetes-docker-tag
+
+resource_types:
+- name: kubernetes
+  type: docker-image
+  source:
+    repository: jcderr/concourse-kubernetes-resource
+
 resources:
 - name: repository
   type: git
@@ -15,23 +42,11 @@ resources:
     password: {{docker-hub-password}}
     repository: {{docker-hub-image-hello-world}}
 
-jobs:
-- name: create-release-image
-  public: true
-  plan:
-  - get: repository
-    trigger: true
-  - put: release-docker-image
-    params:
-      build: repository
+- name: kubernetes
+  type: kubernetes
+  source:
+    cluster_url: https://http://192.168.99.100:8443
+    namespace: default
+    resource_type: deployment
+    resource_name: some_pod_name
 
-#- name: unit-test
-#  public: true
-#  plan:
-#  - get: dotnet-test
-#  - get: dotnet-pipeline
-#    passed: [restore]
-#  - task: test
-#    file: dotnet-test/build/build-job.yml
-#  - put: dotnet-pipeline
-#    params: {repository: build}
