@@ -45,7 +45,7 @@ resources:
 - name: kubernetes
   type: kubernetes
   source:
-    cluster_url: https://http://192.168.99.100:8443
+    cluster_url: http://http://192.168.99.100:8443
     namespace: default
     resource_type: deployment
     resource_name: some_pod_name
