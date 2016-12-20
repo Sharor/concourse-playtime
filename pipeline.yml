@@ -8,12 +8,14 @@ jobs:
     params:
       build: repository
 
+
 - name: kubernetes-deploy
   public: true
   plan:
   - get: repository
   - get: release-docker-image
     passed: [create-release-image]
+    trigger: true
   - put: kubernetes
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
