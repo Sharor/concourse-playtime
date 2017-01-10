@@ -36,6 +36,14 @@ resource_types:
 
 resources:
 - name: repository
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: master
+    username: {{github-username}}
+    password: {{github-password}}
+
+- name: version
   type: semver
   source:
     driver: git
