@@ -52,8 +52,9 @@ resources:
     driver: git
     uri: git@github.com:Sharor/concourse-playtime.git
     branch: master
-    file: semver/version
+    file: version
     private_key: {{concourse-token}}
+
 - name: release-docker-image
   type: docker-image
   source:
