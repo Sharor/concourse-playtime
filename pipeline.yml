@@ -8,10 +8,16 @@ jobs:
     params:
       build: repository
 
-- name: versionbump
-- get: version
-  params: {bump: minor}
-- task: repository/versiontest.sh
+- name: versionbump 
+  public: true
+  plan:
+  - get: repository
+  - get: version
+    params: {bump: minor}
+  - task: versiontest
+    file: repository/versiontest.sh
+  - put: version
+    params: {file: repository/version}
 
 - name: kubernetes-deploy
   public: true
@@ -48,7 +54,6 @@ resources:
     branch: master
     file: version
     private_key: {{concourse-token}}
-
 - name: release-docker-image
   type: docker-image
   source:
