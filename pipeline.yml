@@ -8,6 +8,10 @@ jobs:
     params:
       build: repository
 
+- name: versionbump
+- get: version
+  params: {bump: minor}
+- task: repository/versiontest.sh
 
 - name: kubernetes-deploy
   public: true
@@ -35,6 +39,15 @@ resources:
     branch: master
     username: {{github-username}}
     password: {{github-password}}
+
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:Sharor/concourse-playtime.git
+    branch: master
+    file: version
+    private_key: {{concourse-token}}
 
 - name: release-docker-image
   type: docker-image
