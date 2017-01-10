@@ -2,7 +2,7 @@ platform: linux
 
 image_resource:
   type: docker-image
-  source: {repository: library/alpine}
+  source: {repository: library/ubuntu}
 
 inputs:
 - name: repository

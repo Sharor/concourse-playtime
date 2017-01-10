@@ -12,6 +12,7 @@ jobs:
   public: true
   plan:
   - get: repository
+  - get: version
     params: {bump: minor}
   - task: versiontest
     file: repository/semver/semver-job.yml
@@ -36,12 +37,13 @@ resource_types:
 
 resources:
 - name: repository
-  type: git
+  type: semver
   source:
-    uri: https://github.com/Sharor/concourse-playtime.git
+    driver: git
+    uri: git@github.com:Sharor/concourse-playtime.git
     branch: master
-    username: {{github-username}}
-    password: {{github-password}}
+    file: version
+    private_key: {{concourse-token}}
 
 - name: version
   type: semver
