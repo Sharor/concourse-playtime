@@ -2,10 +2,9 @@ platform: linux
 
 image_resource:
   type: docker-image
-  source: {repository: library/ubuntu}
+  source: {repository: microsoft/dotnet}
 
 inputs:
-- name: repository
 - name: version
 
 run:

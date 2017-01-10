@@ -16,7 +16,8 @@ jobs:
     params: {bump: minor}
   - task: versiontest
     file: repository/semver/semver-job.yml
-
+  - put: version
+    params {file: version/version}
 - name: kubernetes-deploy
   public: true
   plan:
@@ -37,13 +38,12 @@ resource_types:
 
 resources:
 - name: repository
-  type: semver
+  type: git
   source:
-    driver: git
-    uri: git@github.com:Sharor/concourse-playtime.git
+    uri: https://github.com/Sharor/concourse-playtime.git
     branch: master
-    file: version
-    private_key: {{concourse-token}}
+    username: {{github-username}}
+    password: {{github-password}}
 
 - name: version
   type: semver
