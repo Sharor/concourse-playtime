@@ -8,4 +8,4 @@ inputs:
 - name: version
 
 run:
-  path: repository/semver/versiontest.sh 
+  path: version/semver/versiontest.sh 
