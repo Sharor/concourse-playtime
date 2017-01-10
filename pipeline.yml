@@ -14,10 +14,10 @@ jobs:
   - get: repository
   - get: version
     params: {bump: minor}
-  - task: versiontest
-    file: repository/semver/semver-job.yml
   - put: version
-    params {file: version/version}
+    params: 
+     bump: minor
+     file: version/version
 - name: kubernetes-deploy
   public: true
   plan:
