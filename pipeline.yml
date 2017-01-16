@@ -1,23 +1,17 @@
 jobs:
 - name: create-release-image
   public: true
-  plan:
+  plan: 
   - get: repository
     trigger: true
-  - put: release-docker-image
-    params:
-      build: repository
-
-- name: versionbump 
-  public: true
-  plan:
-  - get: repository
   - get: version
     params: {bump: minor}
-  - put: version
-    params: 
-     bump: minor
-     file: version/version
+  - put: release-docker-image
+    params:
+      build: repository 
+      tag: version/version
+      tag_as_latest: true
+
 - name: kubernetes-deploy
   public: true
   plan:
