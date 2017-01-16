@@ -10,7 +10,7 @@ jobs:
   public: true
   plan: 
   - get: repository
-    trigger: true
+##    trigger: true
   - get: version
     params: {bump: major}
   - aggregate: 
