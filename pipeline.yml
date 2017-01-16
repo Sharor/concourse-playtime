@@ -20,6 +20,7 @@ jobs:
   plan:
   - get: repository
   - get: version
+    passed: [create-release-image]
   - get: release-docker-image
     passed: [create-release-image]
     trigger: true
