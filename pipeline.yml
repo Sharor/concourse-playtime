@@ -5,6 +5,8 @@ jobs:
   - get: repository
   - task: version
     file: repository/versioning/wincrementor.yml
+  - put: resource-version
+    params: {file: version/number}
 
 - name: create-release-image
   public: true
@@ -12,7 +14,7 @@ jobs:
   - get: repository
 ##    trigger: true
   - get: version
-    params: {bump: major}
+    params: {bump: patch}
   - aggregate: 
     - put: release-docker-image
       params:
@@ -54,7 +56,7 @@ resources:
   source:
     driver: git
     uri: git@github.com:Sharor/concourse-playtime.git
-    branch: master
+    branch: version
     file: version
     private_key: {{concourse-token}}
 
