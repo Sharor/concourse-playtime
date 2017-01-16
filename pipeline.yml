@@ -5,24 +5,28 @@ jobs:
   - get: repository
     trigger: true
   - get: version
-    params: {bump: minor}
-  - put: release-docker-image
-    params:
-      build: repository 
-      tag: version/version
-      tag_as_latest: true
+    params: {bump: major}
+  - aggregate: 
+    - put: release-docker-image
+      params:
+        build: repository 
+        tag: version/version
+        tag_as_latest: true
+    - put: version
+      params: {file: version/version}
 
 - name: kubernetes-deploy
   public: true
   plan:
   - get: repository
+  - get: version
   - get: release-docker-image
     passed: [create-release-image]
     trigger: true
   - put: kubernetes
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: repository/deploy-kubernetes/kubernetes-docker-tag
+      image_tag: version/version
 
 resource_types:
 - name: kubernetes
