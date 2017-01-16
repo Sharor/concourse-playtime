@@ -32,7 +32,7 @@ jobs:
   - put: kubernetes
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/version
+      image_tag: version/number
 
 resource_types:
 - name: kubernetes
