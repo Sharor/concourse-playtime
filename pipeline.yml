@@ -7,7 +7,7 @@ jobs:
   - task: version
     file: repository/versioning/wincrementor.yml
   - put: version
-    params: {file: version/number}
+    params: {file: version/version}
 
 - name: create-release-image
   public: true
