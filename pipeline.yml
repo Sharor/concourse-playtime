@@ -2,10 +2,11 @@ jobs:
 - name: wincrementortest
   public: true
   plan: 
+  - get: version
   - get: repository
   - task: version
     file: repository/versioning/wincrementor.yml
-  - put: resource-version
+  - put: version
     params: {file: version/number}
 
 - name: create-release-image
