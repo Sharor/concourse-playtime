@@ -6,7 +6,7 @@ RUN echo "deb http://download.mono-project.com/repo/debian wheezy main" | tee /e
 RUN apt-get update
 RUN apt-get install -y git unzip
 RUN apt-get install -y mono-devel  mono-complete referenceassemblies-pcl 
-COPY repository ./
+COPY ../../repository .
 RUN git clone https://github.com/docascode/docfx-seed.git
 RUN wget https://github.com/dotnet/docfx/releases/download/v2.10.2/docfx.zip
 RUN unzip docfx.zip -d ./docfx-seed/docfx
