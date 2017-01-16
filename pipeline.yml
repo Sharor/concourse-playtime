@@ -22,6 +22,14 @@ jobs:
       tag: version/version
       tag_as_latest: true
 
+- name: pac-release-notes
+  public: true
+  plan:
+  - get: repository
+  - get: version
+    passed: [wincrement-version]
+  - put: release-notes
+
 - name: create-release-image
   public: true
   plan: 
@@ -57,6 +65,20 @@ jobs:
     passed: [create-documentation]
   - get: documentation-container
     passed: [create-documentation]
+    trigger: true
+  - put: kubernetes
+    params:
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+
+- name: kubernetes-serve-release-notes
+  public: true
+  plan:
+  - get: repository
+  - get: version
+    passed: [pac-release-notes]
+  - get: release-notes
+    passed: [pac-release-notes]
     trigger: true
   - put: kubernetes
     params:
@@ -104,6 +126,14 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: {{docker-documentation-image}}
+
+- name: release-notes
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: {{docker-release-notes-image}}
 
 - name: kubernetes
   type: kubernetes
