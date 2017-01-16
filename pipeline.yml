@@ -4,16 +4,28 @@ jobs:
   plan: 
   - get: version
   - get: repository
+    trigger: true
   - task: version
     file: repository/versioning/wincrementor.yml
   - put: version
     params: {file: version/version}
 
+- name: create-documentation
+  public: true
+  plan: 
+  - get: repository
+  - get: version
+    passed: [wincrement-version]
+  - put: documentation-container
+    params: 
+      build: repository
+      tag: version/version
+      tag_as_latest: true
+
 - name: create-release-image
   public: true
   plan: 
   - get: repository
-##    trigger: true
   - get: version
     passed: [wincrement-version]
   - aggregate: 
@@ -23,7 +35,7 @@ jobs:
         tag: version/version
         tag_as_latest: true
 
-- name: kubernetes-deploy
+- name: kubernetes-deploy-release
   public: true
   plan:
   - get: repository
@@ -36,6 +48,21 @@ jobs:
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
+
+- name: kubernetes-serve-documentation
+  public: true
+  plan:
+  - get: repository
+  - get: version
+    passed: [create-documentation]
+  - get: documentation-container
+    passed: [create-documentation]
+    trigger: true
+  - put: kubernetes
+    params:
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+
 
 resource_types:
 - name: kubernetes
@@ -69,6 +96,14 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: {{docker-hub-image-hello-world}}
+
+- name: documentation-container
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: {{docker-documentation-image}}
 
 - name: kubernetes
   type: kubernetes
