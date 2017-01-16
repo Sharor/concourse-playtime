@@ -1,4 +1,11 @@
 jobs:
+- name: wincrementortest
+  public: true
+  plan: 
+  - get: repository
+  - task: version
+    file: repository/versioning/wincrementor.yml
+
 - name: create-release-image
   public: true
   plan: 
@@ -12,8 +19,6 @@ jobs:
         build: repository 
         tag: version/version
         tag_as_latest: true
-    - put: version
-      params: {file: version/version}
 
 - name: kubernetes-deploy
   public: true
