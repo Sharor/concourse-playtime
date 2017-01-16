@@ -14,5 +14,5 @@ run:
   - |
     ls
     cd repository
-    ls /
+    readlink -f pipeline.yml
     ruby /wincrementor.rb 8dc0cb738cab01cb9d8b8e225eed1f0a6e760791
