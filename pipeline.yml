@@ -1,5 +1,5 @@
 jobs:
-- name: wincrementortest
+- name: wincrement-version
   public: true
   plan: 
   - get: version
@@ -15,7 +15,7 @@ jobs:
   - get: repository
 ##    trigger: true
   - get: version
-    params: {bump: patch}
+    passed: [wincrement-version]
   - aggregate: 
     - put: release-docker-image
       params:
@@ -56,6 +56,7 @@ resources:
   type: semver
   source:
     driver: git
+    initial_version: 0.0.0
     uri: git@github.com:Sharor/concourse-playtime.git
     branch: version
     file: version
