@@ -5,11 +5,8 @@ image_resource:
   source: {repository: sharor/wincrementor}
 
 inputs:
-- name: repository
-- name: version
-
-outputs: 
-- name: wincrement-version
+  - name: repository
+  - name: version
 
 run:
   path: sh
