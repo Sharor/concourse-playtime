@@ -9,7 +9,7 @@ inputs:
 - name: version
 
 outputs: 
-- name: version
+- name: version/version
 
 run:
   path: sh
