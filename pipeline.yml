@@ -3,9 +3,9 @@ jobs:
   public: true
   plan:
   - get: repository
-#  - task: ready-kubernetes
-#    file: deploym-kubernetes/gen-svc-ing.yml
-  - put: kubernetes-job
+  - get: version
+  - task: ready-kubernetes
+    file: repository/deploy-kubernetes/gen-svc-ing.yml
 
 - name: wincrement-version
   public: true
@@ -72,8 +72,8 @@ jobs:
   - get: release-docker-image
     passed: [create-release-image]
     trigger: true
-  - task: ready-kubernetes
-    file: deploym-kubernetes/gen-svc-ing.yml
+#  - task: ready-kubernetes
+#    file: deploym-kubernetes/gen-svc-ing.yml
   - put: kubernetes
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
@@ -114,7 +114,7 @@ resource_types:
 - name: kubernetes
   type: docker-image
   source:
-    repository: jcderr/concourse-kubernetes-resource
+    repository: sharor/concourse-kubernetes-resource
 
 resources:
 - name: repository
@@ -179,6 +179,5 @@ resources:
     admin_key: {{admin-key}}
     admin_cert: {{admin-cert}}
     resource_type: job
-    resource_path: repository/svc.yml
-
+    resource_name: test
 

@@ -2,7 +2,7 @@ platform: linux
 
 image_resource:
   type: docker-image
-  source: {repository: microsoft/dotnet}
+  source: {repository: sharor/kubectl}
 
 inputs:
 - name: repository
@@ -12,9 +12,7 @@ run:
   args:
   - -exc
   - |
-    ls
-    cp -r repository/dotnet-testfolder ./documentation/dotnet-testfolder
-    cp repository/documentation/Dockerfile ./documentation/Dockerfile
+    kubectl
 
 
 
