@@ -6,8 +6,15 @@ image_resource:
 
 inputs:
 - name: repository
+
 outputs:
-  - name: integration
+  - name: documentation
 
 run:
-  path: repository/integration/integration.sh
+  path: sh
+  args:
+  - -exc
+  - |
+    cp repository/dotnet-testfolder ./documentation/dotnet-testfolder
+    cp repository/documentation/Dockerfile ./documentation/Dockerfile
+

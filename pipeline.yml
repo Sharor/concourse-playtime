@@ -21,7 +21,7 @@ jobs:
     file: repository/documentation/copy-repository.yml
   - put: documentation-container
     params: 
-      build: repository/documentation
+      build: documentation
       tag: version/version
       tag_as_latest: true
 
