@@ -15,6 +15,7 @@ run:
   args:
   - -exc
   - |
-    cp repository/dotnet-testfolder ./documentation/dotnet-testfolder
+    ls
+    cp -r repository/dotnet-testfolder ./documentation/dotnet-testfolder
     cp repository/documentation/Dockerfile ./documentation/Dockerfile
 
