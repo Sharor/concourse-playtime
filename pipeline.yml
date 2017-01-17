@@ -33,6 +33,10 @@ jobs:
   - get: version
     passed: [wincrement-version]
   - put: release-notes
+    params: 
+      build: repository/pac-release-notes
+      tag: version/version
+      tag_as_latest: true
 
 - name: create-release-image
   public: true
