@@ -8,7 +8,7 @@ inputs:
 - name: repository
 
 run:
-  path: repository/deploy-kubernetes/genscript.sh
+  path: repository/deploy-kubernetes/genscript.sh 
 
 
 
