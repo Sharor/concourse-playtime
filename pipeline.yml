@@ -32,9 +32,11 @@ jobs:
     passed: [wincrement-version]
   - get: version
     passed: [wincrement-version]
+  - task: copy-repository
+    file: repository/pac-release-notes/copy-repository.yml
   - put: release-notes
     params: 
-      build: repository/pac-release-notes
+      build: release-notes
       tag: version/version
       tag_as_latest: true
 
