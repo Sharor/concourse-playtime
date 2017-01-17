@@ -8,7 +8,7 @@ jobs:
   - task: version
     file: repository/versioning/wincrementor.yml
   - put: version
-    params: {file: wincrementor/wincrement-version}
+    params: {file: wincrementor/version}
 
 - name: create-documentation
   public: true

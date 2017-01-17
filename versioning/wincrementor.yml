@@ -16,10 +16,10 @@ run:
   args:
   - -exc
   - |
-    mkdir wincrementor
+    ls
     cd repository
     ls
     ls ../version
-    ruby /wincrementor.rb 8dc0cb738cab01cb9d8b8e225eed1f0a6e760791 > ../wincrementor/wincrement-version
+    ruby /wincrementor.rb 8dc0cb738cab01cb9d8b8e225eed1f0a6e760791 > ../wincrementor/version
     ls
     ls ../version
