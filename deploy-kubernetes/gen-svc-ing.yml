@@ -8,11 +8,7 @@ inputs:
 - name: repository
 
 run:
-  path: sh
-  args:
-  - -exc
-  - |
-    kubectl --server=https://192.168.99.100:8443 --namespace=default --certificate-authority=repository/ca-minikube --client-key=repository/client-key --client-certificate=repository/client-cert create -f repository/svc.yml
+  path: repository/deploy-kubernetes/genscript.sh
 
 
 
