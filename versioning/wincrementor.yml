@@ -9,7 +9,7 @@ inputs:
 - name: version
 
 outputs: 
-- name: version/version
+- name: wincrement-version
 
 run:
   path: sh
@@ -19,5 +19,5 @@ run:
     cd repository
     echo "hej" > ../version/version
     cat ../version/version
-    ruby /wincrementor.rb 8dc0cb738cab01cb9d8b8e225eed1f0a6e760791 > ../version/version
+    ruby /wincrementor.rb 8dc0cb738cab01cb9d8b8e225eed1f0a6e760791 > ../version/wincrement-version
     cat ../version/version
