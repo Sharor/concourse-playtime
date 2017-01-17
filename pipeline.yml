@@ -16,9 +16,11 @@ jobs:
   - get: repository
   - get: version
     passed: [wincrement-version]
+  - task: copy-repository
+    file: repository/documentation/copy-repository.yml
   - put: documentation-container
     params: 
-      build: repository/code-documentation
+      build: repository/documentation
       tag: version/version
       tag_as_latest: true
 
