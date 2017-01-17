@@ -1,4 +1,12 @@
 jobs:
+- name: testkubejob
+  public: true
+  plan:
+  - get: repository
+#  - task: ready-kubernetes
+#    file: deploym-kubernetes/gen-svc-ing.yml
+  - put: kubernetes-job
+
 - name: wincrement-version
   public: true
   plan: 
@@ -64,6 +72,8 @@ jobs:
   - get: release-docker-image
     passed: [create-release-image]
     trigger: true
+  - task: ready-kubernetes
+    file: deploym-kubernetes/gen-svc-ing.yml
   - put: kubernetes
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
@@ -159,3 +169,16 @@ resources:
     admin_cert: {{admin-cert}}
     resource_type: deployment
     resource_name: test
+
+- name: kubernetes-job
+  type: kubernetes
+  source:
+    cluster_url: https://192.168.99.100:8443
+    namespace: default
+    cluster_ca: {{cluster-ca}}
+    admin_key: {{admin-key}}
+    admin_cert: {{admin-cert}}
+    resource_type: job
+    resource_path: repository/svc.yml
+
+
