@@ -17,10 +17,11 @@ jobs:
   public: true
   plan: 
   - get: version
+    params: {bump: minor}
   - get: repository
     trigger: true
-  - task: version
-    file: repository/versioning/wincrementor.yml
+#  - task: version
+#    file: repository/versioning/wincrementor.yml
   - put: version
     params: {file: wincrementor/version}
 
