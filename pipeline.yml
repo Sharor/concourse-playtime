@@ -43,9 +43,9 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [wincrement-version]
+#    passed: [wincrement-version]
   - get: version
-    passed: [wincrement-version]
+#    passed: [wincrement-version]
   - task: copy-repository
     file: repository/pac-release-notes/copy-repository.yml
   - put: release-notes
