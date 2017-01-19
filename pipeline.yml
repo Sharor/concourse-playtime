@@ -4,8 +4,14 @@ jobs:
   plan:
   - get: repository
   - get: version
-  - task: ready-kubernetes
-    file: repository/deploy-kubernetes/gen-svc-ing.yml
+#  - task: ready-kubernetes
+#    file: repository/deploy-kubernetes/gen-svc-ing.yml
+  - put: kubernetes-job
+    params:
+      resource_path: repository/svc.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+
 
 - name: wincrement-version
   public: true
