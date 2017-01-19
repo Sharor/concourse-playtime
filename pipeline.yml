@@ -15,9 +15,10 @@ jobs:
 - name: alpine
   public: true
   plan: 
-  get: repository
-  - task: repository/alpine.yml
-
+  - get: repository
+  - task: alpine
+    file: repository/alpine.yml
+   
 
 - name: wincrement-version
   public: true
