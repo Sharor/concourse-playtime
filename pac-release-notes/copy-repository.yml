@@ -16,6 +16,6 @@ run:
   - -exc
   - |
     ls
-    cp -r repository/dotnet-testfolder ./release-notes/dotnet-testfolder
+    cp -r repository ./release-notes/
     cp repository/pac-release-notes/Dockerfile ./release-notes/Dockerfile
 
