@@ -12,6 +12,12 @@ jobs:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
 
+- name: alpine
+  public: true
+  plan: 
+  get: repository
+  - task: repository/alpine.yml
+
 
 - name: wincrement-version
   public: true
@@ -23,7 +29,7 @@ jobs:
 #  - task: version
 #    file: repository/versioning/wincrementor.yml
   - put: version
-    params: {file: wincrementor/version}
+    params: {file: version/version}
 
 - name: create-documentation
   public: true
