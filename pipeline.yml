@@ -67,17 +67,20 @@ jobs:
   - task: generate-kubernetes-yml
     file: repository/deploy-kubernetes/generate.yml
   - put: kubernetes-job
-    params: 
+    params:
+      repository: kubernetes-yml
       resource_path: kubernetes-yml/test-svc.yml
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
   - put: kubernetes-job
     params: 
+      repository: kubernetes-yml
       resource_path: kubernetes-yml/test-ingress.yml
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
   - put: kubernetes-job
     params: 
+      repository: kubernetes-yml
       resource_path: kubernetes-yml/test-deploy.yml
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
