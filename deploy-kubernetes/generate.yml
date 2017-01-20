@@ -2,7 +2,7 @@ platform: linux
 
 image_resource:
   type: docker-image
-  source: {repository: sharor/kubectl}
+  source: {repository: sharor/traefikcone}
 
 inputs:
 - name: repository
@@ -11,7 +11,12 @@ outputs:
 - name: kubernetes-yml
 
 run:
-  path: repository/deploy-kubernetes/genscript.sh 
-
+  path: sh
+  args:
+    - -exc
+    - |
+      ls
+      cp repository/deploy-kubernetes/properties.yml ./traefik-cone
+      ls ./traefik-cone
 
 
