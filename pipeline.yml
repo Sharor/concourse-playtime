@@ -1,25 +1,4 @@
 jobs:
-- name: testkubejob
-  public: true
-  plan:
-  - get: repository
-  - get: version
-#  - task: ready-kubernetes
-#    file: repository/deploy-kubernetes/gen-svc-ing.yml
-  - put: kubernetes-job
-    params:
-      resource_path: repository/svc.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
-
-- name: alpine
-  public: true
-  plan: 
-  - get: repository
-  - task: alpine
-    file: repository/alpine.yml
-   
-
 - name: wincrement-version
   public: true
   plan: 
@@ -86,8 +65,8 @@ jobs:
   - get: release-docker-image
     passed: [create-release-image]
     trigger: true
-#  - task: ready-kubernetes
-#    file: deploym-kubernetes/gen-svc-ing.yml
+  - task: generate-kubernetes-yml
+    file: deploy-kubernetes/generate.yml
   - put: kubernetes
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo

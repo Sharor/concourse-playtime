@@ -7,6 +7,9 @@ image_resource:
 inputs:
 - name: repository
 
+outputs: 
+- name: kubernetes-yml
+
 run:
   path: repository/deploy-kubernetes/genscript.sh 
 
