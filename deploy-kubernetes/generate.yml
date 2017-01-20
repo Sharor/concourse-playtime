@@ -20,4 +20,4 @@ run:
       ls /traefik-cone
       dotnet restore /traefik-cone
       dotnet run -p /traefik-cone
-      ls /traefik-cone
+      ls /tmp/build
