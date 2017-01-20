@@ -1,34 +1,4 @@
 jobs:
-- name: end-to-end-test
-  public: true
-  plan: 
-  - get: repository
-  - get: version
-    passed: [kubernetes-deploy-release]
-  - task: test
-    file: repository/deploy-kubernetes/test.yml
-  - task: generate-kubernetes-yml
-    file: repository/deploy-kubernetes/generate.yml
-  - put: kubernetes-delete
-    params:
-      repository: kubernetes-yml
-      resource_path: kubernetes-yml/test-svc.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
-  - put: kubernetes-delete
-    params:
-      repository: kubernetes-yml
-      resource_path: kubernetes-yml/test-ing.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
-  - put: kubernetes-delete
-    params:
-      repository: kubernetes-yml
-      resource_path: kubernetes-yml/test-deploy.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
-
-
 - name: wincrement-version
   public: true
   plan: 
@@ -85,6 +55,16 @@ jobs:
         tag: version/version
         tag_as_latest: true
 
+
+
+
+
+
+
+
+
+
+
 - name: kubernetes-deploy-release
   public: true
   plan:
@@ -114,6 +94,38 @@ jobs:
       resource_path: kubernetes-yml/test-deploy.yml
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
+
+- name: end-to-end-test
+  public: true
+  plan:
+  - get: repository
+  - get: version
+    passed: [kubernetes-deploy-release]
+  - task: test
+    file: repository/deploy-kubernetes/test.yml
+  - task: generate-kubernetes-yml
+    file: repository/deploy-kubernetes/generate.yml
+  - put: kubernetes-delete
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-svc.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+  - put: kubernetes-delete
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-ing.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+  - put: kubernetes-delete
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-deploy.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+
+
+
 
 
 
