@@ -16,7 +16,7 @@ run:
     - -exc
     - |
       ls
-      cp repository/deploy-kubernetes/properties.yml ./properties.yml
+      cp repository/deploy-kubernetes/properties.yml /tmp/build/properties.yml
       ls /traefik-cone
       dotnet restore /traefik-cone
       dotnet run -p /traefik-cone
