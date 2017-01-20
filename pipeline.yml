@@ -102,7 +102,7 @@ jobs:
   - get: version
     passed: [kubernetes-deploy-release]
   - task: test
-    file: repository/deploy-kubernetes/test.yml
+    file: repository/concourse-pipeline/end-to-end-test/test.yml
   - task: generate-kubernetes-yml
     file: repository/deploy-kubernetes/generate.yml
   - put: kubernetes-delete
