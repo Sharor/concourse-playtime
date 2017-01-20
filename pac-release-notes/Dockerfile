@@ -3,7 +3,6 @@ RUN ls
 COPY repository .
 RUN ls
 RUN echo "Updated"
-WORKDIR repository
 RUN ls /usr/src/app
 RUN pac -h
 RUN cat ./pac-release-notes/pac-settings.yml

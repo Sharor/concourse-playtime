@@ -101,6 +101,7 @@ jobs:
   - get: repository
   - get: version
     passed: [kubernetes-deploy-release]
+    trigger: true
   - task: test
     file: repository/concourse-pipeline/end-to-end-test/test.yml
   - task: generate-kubernetes-yml
