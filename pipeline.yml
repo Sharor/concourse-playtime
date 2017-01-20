@@ -59,14 +59,13 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [create-release-image]
   - get: version
     passed: [create-release-image]
   - get: release-docker-image
     passed: [create-release-image]
     trigger: true
   - task: generate-kubernetes-yml
-    file: deploy-kubernetes/generate.yml
+    file: repository/deploy-kubernetes/generate.yml
   - put: kubernetes
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
