@@ -6,4 +6,4 @@ RUN echo "Updated"
 RUN ls /usr/src/app
 RUN pac -h
 RUN cat ./pac-release-notes/pac-settings.yml
-RUN pac --from "HEAD~2" --settings=./pac-release-notes/pac-settings.yml
+RUN pac --from-latest-tag "rel_*" --settings=./pac-release-notes/pac-settings.yml

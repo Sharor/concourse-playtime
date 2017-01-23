@@ -10,6 +10,13 @@ jobs:
 #    file: repository/versioning/wincrementor.yml
   - put: version
     params: {file: version/version}
+  - put: repository
+    params: 
+      repository: repository
+      tag: version/version
+      only_tag: true
+      tag_prefix: stable__
+
 
 - name: create-documentation
   public: true
@@ -30,9 +37,9 @@ jobs:
   public: true
   plan:
   - get: repository
-#    passed: [wincrement-version]
+    passed: [wincrement-version]
   - get: version
-#    passed: [wincrement-version]
+    passed: [wincrement-version]
   - task: copy-repository
     file: repository/pac-release-notes/copy-repository.yml
   - put: release-notes
@@ -40,6 +47,15 @@ jobs:
       build: release-notes
       tag: version/version
       tag_as_latest: true
+  - put: repository
+    params:
+      repository: repository
+      tag: version/version
+      only_tag: true
+      tag_prefix: stable_
+
+
+
 
 - name: create-release-image
   public: true
