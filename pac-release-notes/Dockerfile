@@ -1,4 +1,6 @@
 FROM praqma/pac
+ENTRYPOINT []
+CMD []
 COPY repository .
 RUN ls /usr/src/app
 RUN cat ./pac-release-notes/pac-settings.yml
