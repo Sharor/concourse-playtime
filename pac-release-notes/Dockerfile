@@ -1,6 +1,7 @@
 FROM sharor/pac
+RUN mkdir /usr/data
+WORKDIR /usr/data
 COPY repository .
-RUN ls /usr/src/app
 RUN cat ./pac-release-notes/pac-settings.yml
 RUN echo Generate release notes:
 RUN ls
