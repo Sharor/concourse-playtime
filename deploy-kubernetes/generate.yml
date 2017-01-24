@@ -21,3 +21,4 @@ run:
       dotnet run -p /traefik-cone
       ls /tmp/build
       cp /tmp/build/*-*.yml ./kubernetes-yml
+      cp /tmp/build*-*.yml ./repository/concourse-pipeline/kubernetes-deployment-yaml

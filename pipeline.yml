@@ -1,5 +1,5 @@
 jobs:
-#####################################################################
+######################### Create release  ##########################
 - name: wincrement-version
   public: true
   plan: 
@@ -196,6 +196,14 @@ resources:
   source:
     uri: https://github.com/Sharor/concourse-playtime.git
     branch: master
+    username: {{github-username}}
+    password: {{github-password}}
+
+- name: repository
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: stable
     username: {{github-username}}
     password: {{github-password}}
 
