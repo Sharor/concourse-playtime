@@ -105,14 +105,9 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [end-to-end-test]
+    passed: [end-to-end-test, static-analysis]
   - get: version
-    passed: [end-to-end-test]
-  - put: documentation-container
-    params:
-      build: documentation
-      tag: version/version
-      tag_as_latest: true
+    passed: [end-to-end-test, static-analysis]
   - put: repository
     params:
       repository: repository
@@ -120,15 +115,13 @@ jobs:
       only_tag: true
       tag_prefix: stable_ 
 
-
-
 - name: create-documentation
   public: true
   plan: 
   - get: repository
-    passed: [wincrement-version]
+    passed: [mark-as-stable]
   - get: version
-    passed: [wincrement-version]
+    passed: [mark-as-stable]
   - task: copy-repository
     file: repository/documentation/copy-repository.yml
   - put: documentation-container
@@ -141,9 +134,9 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [wincrement-version]
+    passed: [mark-as-stable]
   - get: version
-    passed: [wincrement-version]
+    passed: [mark-as-stable]
     trigger: true
   - task: copy-repository
     file: repository/pac-release-notes/copy-repository.yml
