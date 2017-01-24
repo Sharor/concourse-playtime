@@ -11,12 +11,6 @@ jobs:
 #    file: repository/versioning/wincrementor.yml
   - put: version
     params: {file: version/version}
-  - put: repository
-    params: 
-      repository: repository
-      tag: version/version
-      only_tag: true
-      tag_prefix: stable__
 
 - name: create-release-image
   public: true
@@ -75,9 +69,58 @@ jobs:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
 
-
+- name: end-to-end-test
+  public: true
+  plan:
+  - get: repository
+  - get: version
+    passed: [kubernetes-deploy-release]
+    trigger: true
+  - task: test
+    file: repository/concourse-pipeline/end-to-end-test/test.yml
+  - task: generate-kubernetes-yml
+    file: repository/deploy-kubernetes/generate.yml
+  - put: kubernetes-delete
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-svc.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+  - put: kubernetes-delete
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-ing.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+  - put: kubernetes-delete
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-deploy.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
 
 #####################################################################
+
+- name: mark-as-stable
+  public: true
+  plan:
+  - get: repository
+    passed: [end-to-end-test]
+  - get: version
+    passed: [end-to-end-test]
+  - put: documentation-container
+    params:
+      build: documentation
+      tag: version/version
+      tag_as_latest: true
+  - put: repository
+    params:
+      repository: repository
+      tag: version/version
+      only_tag: true
+      tag_prefix: stable_ 
+
+
 
 - name: create-documentation
   public: true
@@ -115,43 +158,6 @@ jobs:
       tag: version/version
       only_tag: true
       tag_prefix: stable_
-
-
-
-- name: end-to-end-test
-  public: true
-  plan:
-  - get: repository
-  - get: version
-    passed: [kubernetes-deploy-release]
-    trigger: true
-  - task: test
-    file: repository/concourse-pipeline/end-to-end-test/test.yml
-  - task: generate-kubernetes-yml
-    file: repository/deploy-kubernetes/generate.yml
-  - put: kubernetes-delete
-    params:
-      repository: kubernetes-yml
-      resource_path: kubernetes-yml/test-svc.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
-  - put: kubernetes-delete
-    params:
-      repository: kubernetes-yml
-      resource_path: kubernetes-yml/test-ing.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
-  - put: kubernetes-delete
-    params:
-      repository: kubernetes-yml
-      resource_path: kubernetes-yml/test-deploy.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
-
-
-
-
-
 
 
 - name: kubernetes-serve-documentation
