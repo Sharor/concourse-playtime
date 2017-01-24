@@ -8,7 +8,7 @@
   -
     :name: none
     :regex:
-      - { pattern: '(\d+)', label: none }
+      - { pattern: 'PAC\-(\d+)', label: none }
 
 :vcs:
   :type: git
