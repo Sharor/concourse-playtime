@@ -1,3 +1,3 @@
 FROM sharor/alpine
-COPY repository .
+COPY pac .
 RUN docker -

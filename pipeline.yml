@@ -139,23 +139,23 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [mark-as-stable]
+    passed: [wincrement-version]
   - get: version
-    passed: [mark-as-stable]
+    passed: [wincrement-version]
     trigger: true
-  - task: copy-repository
-    file: repository/pac-release-notes/copy-repository.yml
+  - task: create-release-notes
+    file: repository/pac-release-notes/create-release-notes.yml
   - put: release-notes
     params: 
       build: release-notes
       tag: version/version
       tag_as_latest: true
-  - put: repository
-    params:
-      repository: repository
-      tag: version/version
-      only_tag: true
-      tag_prefix: stable_
+#  - put: repository
+#    params:
+#      repository: repository
+#      tag: version/version
+#      only_tag: true
+#      tag_prefix: stable_
 
 ####################################################################
 

@@ -1,0 +1,28 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: sharor/pac}
+
+inputs:
+- name: repository
+
+outputs:
+  - name: release-notes
+
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    ls
+    pwd ./release-notes
+    mkdir /release-notes
+    ls /
+    cp -r repository /release-notes
+    ls /release-notes    
+    cp /release-notes/pac-release-notes/pac_settings.yml /usr/src/app
+    cd /usr/src/app
+    ruby pac.rb from-latest-tag "rel_*" --settings=./pac_settings.yml
+    ls
+    cat default-generated.html
