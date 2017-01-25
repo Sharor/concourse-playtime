@@ -1,0 +1,16 @@
+:general:
+  date_template: '%Y-%m-%d'
+  :strict: false
+ 
+:templates:
+  - { location: /templates/default_html.html, pdf: true, output: default-generated.html }
+
+:task_systems:
+  -
+    :name: none
+    :regex:
+    - { pattern: '/#(\d+)/i', label: none}      
+  
+:vcs:
+  :type: git
+  :repo_location: '/repository'

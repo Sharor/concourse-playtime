@@ -144,7 +144,7 @@ jobs:
     passed: [wincrement-version]
     trigger: true
   - task: create-release-notes
-    file: repository/pac-release-notes/create-release-notes.yml
+    file: repository/concourse-pipeline/pac-release-notes/create-release-notes.yml
   - put: release-notes
     params: 
       build: release-notes

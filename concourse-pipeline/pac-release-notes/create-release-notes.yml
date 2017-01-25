@@ -21,7 +21,7 @@ run:
     ls /
     cp -r repository /
     ls /repository    
-    cp /repository/pac-release-notes/pac_settings.yml /usr/src/app
+    cp /repository/concourse-pipeline/pac-release-notes/pac_settings.yml /usr/src/app
     cd /usr/src/app
     ruby pac.rb from-latest-tag "rel_*" --settings=./pac_settings.yml
     ls
