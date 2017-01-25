@@ -16,12 +16,12 @@ run:
   - -exc
   - |
     ls
-    pwd ./release-notes
+    buildpath=pwd ./release-notes
     mkdir /release-notes
     ls /
-    cp -r repository /release-notes
-    ls /release-notes    
-    cp /release-notes/pac-release-notes/pac_settings.yml /usr/src/app
+    cp -r repository /
+    ls /repository    
+    cp /repository/pac-release-notes/pac_settings.yml /usr/src/app
     cd /usr/src/app
     ruby pac.rb from-latest-tag "rel_*" --settings=./pac_settings.yml
     ls
