@@ -39,7 +39,7 @@ jobs:
 
 ###################### Kubernetes deployment ########################
 
-- name: kubernetes-deploy-release
+- name: kubernetes-deploy-staging
   public: true
   plan:
   - get: repository
@@ -74,7 +74,7 @@ jobs:
   plan:
   - get: repository
   - get: version
-    passed: [kubernetes-deploy-release]
+    passed: [kubernetes-deploy-staging]
     trigger: true
   - task: test
     file: repository/concourse-pipeline/end-to-end-test/test.yml
@@ -99,7 +99,7 @@ jobs:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
 
-#####################################################################
+####################################################################
 
 - name: mark-as-stable
   public: true
@@ -114,6 +114,11 @@ jobs:
       tag: version/version
       only_tag: true
       tag_prefix: stable_ 
+  - put: stable-repository
+    params: 
+      repository: repository
+      tag: version/version
+      tag_prefix: stable_
 
 - name: create-documentation
   public: true
@@ -152,6 +157,7 @@ jobs:
       only_tag: true
       tag_prefix: stable_
 
+####################################################################
 
 - name: kubernetes-serve-documentation
   public: true
@@ -167,6 +173,26 @@ jobs:
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
+  - task: generate-kubernetes-yml
+    file: repository/pac-release-notes/generate.yml
+  - put: kubernetes-job
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-svc.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+  - put: kubernetes-job
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-ing.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+  - put: kubernetes-job
+    params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-deploy.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
 
 - name: kubernetes-serve-release-notes
   public: true
@@ -177,18 +203,59 @@ jobs:
     passed: [pac-release-notes]
   - get: release-notes
     passed: [pac-release-notes]
-    trigger: true
   - put: kubernetes
     params:
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
 
+- name: kubernetes-deploy-production
+  public: true
+  plan:
+  - get: repository
+    passed: [kubernetes-serve-release-notes, kubernetes-serve-documentation]
+  - get: version
+    passed: [kubernetes-serve-release-notes, kubernetes-serve-documentation]
+  - put: kubernetes-job
+    params:
+      repository: repository
+      resource_path: repository/concourse-pipeline/kubernetes-deployment-yaml/test-svc.yml
+      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_tag: version/number
+
+- name: mark-as-release
+  public: true
+  plan:
+  - get: repository
+    passed: [kubernetes-deploy-production]
+  - get: version
+    passed: [kubernetes-deploy-production]
+  - put: repository
+    params:
+      repository: repository
+      tag: version/version
+      only_tag: true
+      tag_prefix: release_
+  - put: stable-repository
+    params:
+      repository: repository
+      tag: version/version
+      only_tag: true
+      tag_prefix: release_
+  - put: release-repository
+    params:
+      repository: repository
+      tag: version/version
+      tag_prefix: release_
+
+####################################################################
 
 resource_types:
 - name: kubernetes
   type: docker-image
   source:
     repository: sharor/concourse-kubernetes-resource
+
+####################################################################
 
 resources:
 - name: repository
@@ -199,13 +266,22 @@ resources:
     username: {{github-username}}
     password: {{github-password}}
 
-- name: repository
+- name: stable-repository
   type: git
   source:
     uri: https://github.com/Sharor/concourse-playtime.git
     branch: stable
     username: {{github-username}}
     password: {{github-password}}
+
+- name: release-repository
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: release
+    username: {{github-username}}
+    password: {{github-password}}
+
 
 - name: version
   type: semver
