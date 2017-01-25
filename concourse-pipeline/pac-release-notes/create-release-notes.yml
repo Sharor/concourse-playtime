@@ -20,6 +20,7 @@ run:
     mkdir /release-notes
     ls /
     cp -r repository /
+    cp -r repository/concourse-pipeline/pac-release-notes/templates /
     ls /repository    
     cp /repository/concourse-pipeline/pac-release-notes/pac_settings.yml /usr/src/app
     cd /usr/src/app
