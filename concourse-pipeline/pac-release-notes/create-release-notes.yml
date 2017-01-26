@@ -28,3 +28,4 @@ run:
     cat default-generated.html
     cp default-generated.html /release-notes
     cp /repository/concourse-pipeline/pac-release-notes/Dockerfile /release-notes
+    ls /release-notes
