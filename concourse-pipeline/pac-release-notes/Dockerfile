@@ -1,3 +1,3 @@
 FROM jekyll/jekyll 
 COPY . .
-RUN jekyll serve
+ENTRYPOINT jekyll serve
