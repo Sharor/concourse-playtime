@@ -16,7 +16,7 @@ run:
   - -exc
   - |
     ls
-    buildpath='pwd ./release-notes'
+    buildpath="pwd ./release-notes"
     mkdir /release-notes
     cp -r repository /
     cp -r repository/concourse-pipeline/pac-release-notes/templates /
