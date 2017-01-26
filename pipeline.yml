@@ -139,9 +139,9 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [wincrement-version]
+#    passed: [wincrement-version]
   - get: version
-    passed: [wincrement-version]
+#    passed: [wincrement-version]
     trigger: true
   - task: create-release-notes
     file: repository/concourse-pipeline/pac-release-notes/create-release-notes.yml
