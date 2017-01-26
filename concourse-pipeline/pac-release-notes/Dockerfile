@@ -1,5 +1,5 @@
 FROM sharor/alpine
-COPY release-notes .
+COPY . .
 RUN ls
 RUN apt install -y jekyll
 RUN jekyll --serve
