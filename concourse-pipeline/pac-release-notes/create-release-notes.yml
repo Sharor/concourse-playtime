@@ -20,12 +20,10 @@ run:
     mkdir /release-notes
     cp -r repository /
     cp -r repository/concourse-pipeline/pac-release-notes/templates /
-    ls /
     cp /repository/concourse-pipeline/pac-release-notes/pac_settings.yml /usr/src/app
     cd /usr/src/app
     ruby pac.rb from-latest-tag "rel_*" --settings=./pac_settings.yml
     ls
-    cat default-generated.html
     cp default-generated.html /release-notes
-    cp /repository/concourse-pipeline/pac-release-notes/Dockerfile /release-notes
-    ls /release-notes
+    cd $buildpath
+    cp /repository/concourse-pipeline/pac-release-notes/Dockerfile ./release-notes
