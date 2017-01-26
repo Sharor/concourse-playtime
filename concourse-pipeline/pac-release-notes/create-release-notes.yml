@@ -26,3 +26,5 @@ run:
     ruby pac.rb from-latest-tag "rel_*" --settings=./pac_settings.yml
     ls
     cat default-generated.html
+    cp default-generated.html /release-notes
+    cp /repository/concourse-pipeline/pac-release-notes/Dockerfile /release-notes

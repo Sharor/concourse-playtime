@@ -1,3 +1,4 @@
 FROM sharor/alpine
-COPY pac .
-RUN docker -
+COPY release-notes .
+RUN apt install -y jekyll
+RUN jekyll --serve
