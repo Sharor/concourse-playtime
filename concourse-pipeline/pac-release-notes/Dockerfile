@@ -1,6 +1,3 @@
-FROM sharor/alpine
+FROM jekyll/jekyll 
 COPY . .
-RUN ls
-RUN apk update
-RUN apk add jekyll
 RUN jekyll --serve
