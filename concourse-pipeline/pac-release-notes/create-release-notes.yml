@@ -22,6 +22,7 @@ run:
     cp /repository/concourse-pipeline/pac-release-notes/pac_settings.yml /usr/src/app
     cd /usr/src/app
     ruby pac.rb from-latest-tag "rel_*" --settings=./pac_settings.yml
+    ls
     cd $buildpath
     cp /repository/concourse-pipeline/pac-release-notes/Dockerfile ./release-notes
     cp /repository/concourse-pipeline/pac-release-notes/default-generated.html ./release-notes/index.html
