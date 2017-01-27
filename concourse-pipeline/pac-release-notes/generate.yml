@@ -15,7 +15,7 @@ run:
   args:
     - -exc
     - |
-      cp repository/deploy-kubernetes/properties.yml /tmp/build/properties.yml
+      cp repository/concourse-pipeline/pac-release-notes/properties.yml /tmp/build/properties.yml
       ls /traefik-cone
       dotnet restore /traefik-cone
       dotnet run -p /traefik-cone
