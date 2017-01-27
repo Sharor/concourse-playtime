@@ -17,13 +17,12 @@ run:
   - |
     ls
     buildpath="$(pwd ./release-notes)"
-    mkdir /release-notes
     cp -r repository /
     cp -r repository/concourse-pipeline/pac-release-notes/templates /
     cp /repository/concourse-pipeline/pac-release-notes/pac_settings.yml /usr/src/app
     cd /usr/src/app
     ruby pac.rb from-latest-tag "rel_*" --settings=./pac_settings.yml
-    ls
-    cp default-generated.html /release-notes
     cd $buildpath
     cp /repository/concourse-pipeline/pac-release-notes/Dockerfile ./release-notes
+    cp default-generated.html ./release-notes/index.html
+

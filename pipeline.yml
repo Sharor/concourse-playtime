@@ -19,12 +19,11 @@ jobs:
     passed: [wincrement-version]
   - get: version
     passed: [wincrement-version]
-  - aggregate:
-    - put: release-docker-image
-      params:
-        build: repository
-        tag: version/version
-        tag_as_latest: true
+  - put: release-docker-image
+    params:
+      build: repository
+      tag: version/version
+      tag_as_latest: true
 
 - name: static-analysis
   public: true
@@ -49,30 +48,31 @@ jobs:
     passed: [create-release-image]
     trigger: true
   - task: generate-kubernetes-yml
-    file: repository/deploy-kubernetes/generate.yml
+    file: repository/concourse-pipeline/deploy-kubernetes/generate.yml
   - put: kubernetes-job
     params:
       repository: kubernetes-yml
       resource_path: kubernetes-yml/test-svc.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_name: repository/concourse-pipeline/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
   - put: kubernetes-job
     params:
       repository: kubernetes-yml
       resource_path: kubernetes-yml/test-ing.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_name: repository/concourse-pipeline/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
   - put: kubernetes-job
     params:
       repository: kubernetes-yml
       resource_path: kubernetes-yml/test-deploy.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
+      image_name: repository/concourse-pipeline/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
 
 - name: end-to-end-test
   public: true
   plan:
   - get: repository
+    passed: [kubernetes-deploy-staging]
   - get: version
     passed: [kubernetes-deploy-staging]
     trigger: true
@@ -139,9 +139,9 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [mark-as-stable]
+#    passed: [mark-as-stable]
   - get: version
-    passed: [mark-as-stable]
+    passed: [wincrement-version]
     trigger: true
   - task: create-release-notes
     file: repository/concourse-pipeline/pac-release-notes/create-release-notes.yml
@@ -150,12 +150,6 @@ jobs:
       build: release-notes
       tag: version/version
       tag_as_latest: true
-#  - put: repository
-#    params:
-#      repository: repository
-#      tag: version/version
-#      only_tag: true
-#      tag_prefix: stable_
 
 ####################################################################
 
@@ -163,30 +157,14 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [create-documentation]
+ #   passed: [create-documentation]
   - get: version
     passed: [create-documentation]
   - get: documentation-container
     passed: [create-documentation]
     trigger: true
-  - put: kubernetes
-    params:
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
   - task: generate-kubernetes-yml
-    file: repository/pac-release-notes/generate.yml
-  - put: kubernetes-job
-    params:
-      repository: kubernetes-yml
-      resource_path: kubernetes-yml/test-svc.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
-  - put: kubernetes-job
-    params:
-      repository: kubernetes-yml
-      resource_path: kubernetes-yml/test-ing.yml
-      image_name: repository/deploy-kubernetes/kubernetes-docker-repo
-      image_tag: version/number
+    file: repository/concourse-pipeline/pac-release-notes/generate.yml
   - put: kubernetes-job
     params:
       repository: kubernetes-yml
@@ -198,13 +176,17 @@ jobs:
   public: true
   plan:
   - get: repository
-    passed: [pac-release-notes]
+#    passed: [pac-release-notes]
   - get: version
     passed: [pac-release-notes]
   - get: release-notes
     passed: [pac-release-notes]
-  - put: kubernetes
+  - task: generate-kubernetes-yml
+    file: repository/concourse-pipeline/pac-release-notes/generate.yml
+  - put: kubernetes-job
     params:
+      repository: kubernetes-yml
+      resource_path: kubernetes-yml/test-svc.yml
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
 
@@ -215,10 +197,12 @@ jobs:
     passed: [kubernetes-serve-release-notes, kubernetes-serve-documentation]
   - get: version
     passed: [kubernetes-serve-release-notes, kubernetes-serve-documentation]
+  - task: generate-kubernetes-yml
+    file: repository/concourse-pipeline/pac-release-notes/generate.yml
   - put: kubernetes-job
     params:
       repository: repository
-      resource_path: repository/concourse-pipeline/kubernetes-deployment-yaml/test-svc.yml
+      resource_path: kubernetes-yml/test-svc.yml
       image_name: repository/deploy-kubernetes/kubernetes-docker-repo
       image_tag: version/number
 
@@ -235,12 +219,12 @@ jobs:
       tag: version/version
       only_tag: true
       tag_prefix: release_
-  - put: stable-repository
-    params:
-      repository: repository
-      tag: version/version
-      only_tag: true
-      tag_prefix: release_
+#  - put: stable-repository
+#    params:
+#      repository: repository
+#      tag: version/version
+#      only_tag: true
+#      tag_prefix: release_
   - put: release-repository
     params:
       repository: repository
