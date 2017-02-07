@@ -1,5 +1,17 @@
 jobs:
 ######################### Create release  ##########################
+- name: some-job
+  plan:
+  - get: repository
+  - task: failing
+    file: repository/concourse-pipeline/slack.yml
+    on_failure:
+      put: slack-alert 
+      params:
+        channel: '#buildresults'
+        text: |
+        The build had a result. Check it out at:
+
 - name: wincrement-version
   public: true
   plan: 
@@ -7,8 +19,6 @@ jobs:
     params: {bump: minor}
   - get: repository
     trigger: true
-#  - task: version
-#    file: repository/versioning/wincrementor.yml
   - put: version
     params: {file: version/version}
 
@@ -231,7 +241,7 @@ jobs:
       tag: version/version
       tag_prefix: release_
 
-####################################################################
+###################### Additional Resource Types ###################
 
 resource_types:
 - name: kubernetes
@@ -239,9 +249,19 @@ resource_types:
   source:
     repository: sharor/concourse-kubernetes-resource
 
-####################################################################
-
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+####################### Create release #############################
 resources:
+- name: slack-alert
+  type: slack-notification
+  source: 
+    url: {{slack-hook}}
+
+
 - name: repository
   type: git
   source:
@@ -249,23 +269,6 @@ resources:
     branch: master
     username: {{github-username}}
     password: {{github-password}}
-
-- name: stable-repository
-  type: git
-  source:
-    uri: https://github.com/Sharor/concourse-playtime.git
-    branch: stable
-    username: {{github-username}}
-    password: {{github-password}}
-
-- name: release-repository
-  type: git
-  source:
-    uri: https://github.com/Sharor/concourse-playtime.git
-    branch: release
-    username: {{github-username}}
-    password: {{github-password}}
-
 
 - name: version
   type: semver
@@ -285,6 +288,27 @@ resources:
     password: {{docker-hub-password}}
     repository: {{docker-hub-image-hello-world}}
 
+####################################################################
+
+
+
+- name: stable-repository
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: stable
+    username: {{github-username}}
+    password: {{github-password}}
+
+- name: release-repository
+  type: git
+  source:
+    uri: https://github.com/Sharor/concourse-playtime.git
+    branch: release
+    username: {{github-username}}
+    password: {{github-password}}
+
+
 - name: documentation-container
   type: docker-image
   source:
@@ -301,16 +325,18 @@ resources:
     password: {{docker-hub-password}}
     repository: {{docker-release-notes-image}}
 
-- name: kubernetes
-  type: kubernetes
-  source:
-    cluster_url: https://192.168.99.100:8443
-    namespace: default
-    cluster_ca: {{cluster-ca}}
-    admin_key: {{admin-key}}
-    admin_cert: {{admin-cert}}
-    resource_type: deployment
-    resource_name: test
+#- name: kubernetes
+#  type: kubernetes
+#  source:
+#    cluster_url: https://192.168.99.100:8443
+#    namespace: default
+#    cluster_ca: {{cluster-ca}}
+#    admin_key: {{admin-key}}
+#    admin_cert: {{admin-cert}}
+#    resource_type: deployment
+#    resource_name: test
+
+############ Kubernetes deployment and deletion ####################
 
 - name: kubernetes-job
   type: kubernetes

@@ -1,0 +1,18 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: sharor/alpine}
+
+inputs:
+  - name: repository
+
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    cd repository
+    cd HOLALETSFAIL
+#    ruby /wincrementor.rb 8dc0cb738cab01cb9d8b8e225eed1f0a6e760791 > ../wincrementor/version
+
