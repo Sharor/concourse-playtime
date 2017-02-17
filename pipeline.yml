@@ -3,14 +3,8 @@ jobs:
 - name: some-job
   plan:
   - get: repository
-  - task: failing
-    file: repository/concourse-pipeline/slack.yml
-    on_failure:
-      put: slack-alert 
-      params:
-        channel: '#buildresults'
-        text: |
-        The build had a result. Check it out at:
+  - task: windowstry
+    file: repository/Pipeline/windows.yml
 
 - name: wincrement-version
   public: true

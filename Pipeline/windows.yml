@@ -1,0 +1,16 @@
+platform: windows
+
+image_resource:
+  type: docker-image
+  source: {repository: microsoft/windowsservercore}
+
+inputs:
+  - name: repository
+
+run:
+  path: cmd
+  args:
+  - -exc
+  - |
+  - mkdir windows
+
